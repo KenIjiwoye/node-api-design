@@ -1,6 +1,11 @@
 const User = require('../models/user');
 const Car = require('../models/car');
 
+const Joi = require('joi');
+const idSchema = Joi.object().keys({
+    userId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+});
+
 module.exports = {
 
     index: async (req,res,next) => {
@@ -15,6 +20,8 @@ module.exports = {
     },
 
     getUser: async (req,res,next) => {
+        const result = Joi.validate(req.params, idSchema)
+        console.log('result', result);
         // const userId = req.params.userId; ----this is the same as below:
         const { userId } = req.params;
 
