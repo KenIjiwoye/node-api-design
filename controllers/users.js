@@ -9,13 +9,13 @@ module.exports = {
         const users = await User.find({});
         res.status(200).json(users);
     },
-
+    // Validation: DONE
     newUser: async (req,res,next) => {
-        const newUser = new User(req.body);
+        const newUser = new User(req.value.body);
         user = await newUser.save();
         res.status(201).json(user);
     },
-
+    // Validation: DONE
     getUser: async (req,res,next) => {
         // console.log('result', result);
         // const userId = req.params.userId; ----this is the same as below:
@@ -24,32 +24,32 @@ module.exports = {
         const user = await User.findById(userId);
         res.status(200).json(user);
     },
-
+        // Validation: DONE
     replaceUser: async (req,res,next) => {
-        const { userId } = req.params;
-        const newUser = req.body;
+        const { userId } = req.value.params;
+        const newUser = req.value.body;
         const user = await User.findByIdAndUpdate(userId,newUser);
         res.status(201).json({ success: true });
     },
-
+        // Validation: DONE
     updateUser: async (req,res,next) => {
-        const { userId } = req.params;
-        const newUser = req.body;
+        const { userId } = req.value.params;
+        const newUser = req.value.body;
         const user = await User.findByIdAndUpdate(userId,newUser);
         res.status(201).json({ success: true });
     },
-
+        // Validation: DONE
     getUserCars: async (req,res,next) => {
-        const { userId } = req.params;
+        const { userId } = req.value.params;
         const user = await User.findById(userId).populate('cars');
         console.log('user', user);
         res.status(200).json(user.cars);
     },
-
+        // Validation: DONE
     newUserCar: async (req,res,next) => {
-        const { userId } = req.params;
+        const { userId } = req.value.params;
         // Create a car
-        const newCar = new Car(req.body);
+        const newCar = new Car(req.value.body);
         // Get the user
         const user = await User.findById(userId);
         // Add user as car's seller
