@@ -1,10 +1,7 @@
 const User = require('../models/user');
 const Car = require('../models/car');
 
-const Joi = require('joi');
-const idSchema = Joi.object().keys({
-    userId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
-});
+
 
 module.exports = {
 
@@ -20,10 +17,9 @@ module.exports = {
     },
 
     getUser: async (req,res,next) => {
-        const result = Joi.validate(req.params, idSchema)
-        console.log('result', result);
+        // console.log('result', result);
         // const userId = req.params.userId; ----this is the same as below:
-        const { userId } = req.params;
+        const { userId } = req.value.params;
 
         const user = await User.findById(userId);
         res.status(200).json(user);
@@ -66,7 +62,7 @@ module.exports = {
         await user.save();
         res.status(201).json(newCar);
         // console.log(newCar);
-        console.log(user);
+        // console.log(user);
     }
 }
 
@@ -110,7 +106,7 @@ module.exports = {
     Trick**** To avoid typing trycatch all the time, install dependency "yarn add express-promise-router"
     use it to replace express router like: const router = require('express-promise-router')();
 
-    now function looks like:
+    now method looks like:
 
         index: async (req,res,next) => {
                 const users = await User.find({});
