@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Car = require('../models/car');
 
 module.exports = {
 
@@ -36,11 +37,29 @@ module.exports = {
     },
 
     getUserCars: async (req,res,next) => {
-        
+        const { userId } = req.params;
+        const user = await User.findById(userId).populate('cars');
+        console.log('user', user);
+        res.status(200).json(user.cars);
     },
 
     newUserCar: async (req,res,next) => {
-        
+        const { userId } = req.params;
+        // Create a car
+        const newCar = new Car(req.body);
+        // Get the user
+        const user = await User.findById(userId);
+        // Add user as car's seller
+        newCar.seller = user._id;
+        // Save the car
+        await newCar.save();
+        // Add car to the user's sellers array 'cars
+        await user.cars.push(newCar._id);
+        // Save the user
+        await user.save();
+        res.status(201).json(newCar);
+        // console.log(newCar);
+        console.log(user);
     }
 }
 
