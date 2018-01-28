@@ -7,6 +7,12 @@ const { validateBody, validateParam, schemas } = require('../helpers/routeHelple
 
 router.route('/')
     .get(CarsController.index)
-    .post([validateBody(schemas.newCarSchema)], CarsController.newCar);
+    .post([validateBody(schemas.carSchema)], CarsController.newCar);
+
+router.route('/:carId')
+    .get(validateParam(schemas.idSchema, 'carId'), CarsController.getCar)
+    .put([validateParam(schemas.idSchema, 'carId'), validateBody(schemas.putCarSchema)], CarsController.replaceCar)
+    .patch([validateParam(schemas.idSchema, 'carId'), validateBody(schemas.carOptionalSchema)], CarsController.updateCar)
+    .delete([validateParam(schemas.idSchema, 'carId')], CarsController.deleteCar)
 
 module.exports = router;
