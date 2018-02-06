@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const carSchema = new Schema({
     make: String,
     model: String,
+    price: Number,
     year: Number,
     seller: {
         type: Schema.Types.ObjectId,
